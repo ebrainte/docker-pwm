@@ -1,9 +1,9 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:17-alpine
 
 LABEL maintainer="Ariel Sandor <ebrainte@gmail.com>"
 
-ENV RELDATE=2020-03-19T20_16_30Z \
-    ARCHIVE=pwm-onejar-2.0.0-SNAPSHOT.jar \
+ENV VERSION_N=2_0_5 \
+    VERSION=2.0.5 \
     PWM_PATH=/usr/share/pwm/ \
     SUPERVISOR_PATH=/run/supervisord \
     PACKAGES="supervisor wget"
@@ -15,6 +15,7 @@ RUN apk add --update --no-cache $PACKAGES && \
     rm -rf /var/cache/apk/*
 
 COPY files/ /
+RUN sed -i "s/<VERSION>/${VERSION}/g" /etc/supervisord.conf
 WORKDIR /config
 VOLUME [ "/config" ]
 
